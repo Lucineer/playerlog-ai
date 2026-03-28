@@ -1,10 +1,10 @@
 /**
- * DMlog.ai custom configuration loader.
+ * PlayerLog.ai custom configuration loader.
  * Loads personality, rules, theme, and templates from KV.
  */
 import type { Env } from '../../src/types.js';
 
-export interface DMLogConfig {
+export interface PlayerLogConfig {
   personality: string;
   rules: any;
   theme: string;
@@ -12,9 +12,9 @@ export interface DMLogConfig {
 }
 
 /**
- * Load DMlog.ai custom configuration from KV.
+ * Load PlayerLog.ai custom configuration from KV.
  */
-export async function loadDMLogConfig(env: Env): Promise<DMLogConfig> {
+export async function loadPlayerLogConfig(env: Env): Promise<PlayerLogConfig> {
   try {
     const [personality, rulesRaw, theme] = await Promise.all([
       env.KV.get('config:personality') || '',
@@ -31,9 +31,9 @@ export async function loadDMLogConfig(env: Env): Promise<DMLogConfig> {
 
     // Load templates
     const templateKeys = [
-      'template:dnd_character', 'template:dnd_combat', 'template:dnd_npc',
-      'template:dnd_description', 'template:dnd_rules', 'template:dnd_loot',
-      'template:dnd_rest', 'template:dnd_social',
+      'template:game_character', 'template:game_combat', 'template:game_npc',
+      'template:game_description', 'template:game_rules', 'template:game_loot',
+      'template:game_rest', 'template:game_social',
     ];
     const templates: Record<string, string> = {};
     const templateResults = await Promise.all(templateKeys.map(k => env.KV.get(k)));
@@ -44,32 +44,32 @@ export async function loadDMLogConfig(env: Env): Promise<DMLogConfig> {
 
     return { personality, rules, theme, templates };
   } catch (error) {
-    console.error('Failed to load DMlog config from KV:', error);
+    console.error('Failed to load PlayerLog config from KV:', error);
     return getDefaultConfig();
   }
 }
 
 /**
- * Get the default system prompt for DMlog.ai.
+ * Get the default system prompt for PlayerLog.ai.
  */
 export async function getSystemPrompt(env: Env): Promise<string> {
-  const config = await loadDMLogConfig(env);
+  const config = await loadPlayerLogConfig(env);
   return config.personality || getDefaultConfig().personality;
 }
 
 /**
- * Get routing rules for DMlog.ai commands.
+ * Get routing rules for PlayerLog.ai commands.
  */
 export async function getRoutingRules(env: Env): Promise<any[]> {
-  const config = await loadDMLogConfig(env);
+  const config = await loadPlayerLogConfig(env);
   return config.rules;
 }
 
 /**
- * Get theme CSS for DMlog.ai.
+ * Get theme CSS for PlayerLog.ai.
  */
 export async function getThemeCSS(env: Env): Promise<string> {
-  const config = await loadDMLogConfig(env);
+  const config = await loadPlayerLogConfig(env);
   return config.theme;
 }
 
@@ -84,19 +84,20 @@ export async function getTemplate(key: string, env: Env): Promise<string | null>
 /**
  * Default fallback configuration.
  */
-function getDefaultConfig(): DMLogConfig {
+function getDefaultConfig(): PlayerLogConfig {
   return {
-    personality: `# DMlog.ai System Prompt
+    personality: `# PlayerLog.ai System Prompt
 
-You are DMlog.ai — an experienced Dungeon Master assistant for D&D 5e. 
-Help with character creation, combat tracking, rules lookups, and immersive descriptions. 
-Be theatrical but clear, rules-aware but flexible. Remember campaign context via the LOG.`,
+You are PlayerLog.ai — an AI gaming companion for tabletop RPGs and video games.
+Help with gaming sessions, strategies, character builds, rule clarifications, and immersive descriptions.
+Be friendly and knowledgeable, adaptive to different game systems and playstyles.
+Remember gaming context and previous sessions via the LOG.`,
     rules: [],
-    theme: `/* DMlog.ai Theme - Fallback */
-body.dm-theme {
-  background-color: #1a0f0a;
-  color: #f5f1e6;
-  font-family: 'Crimson Text', serif;
+    theme: `/* PlayerLog.ai Theme - Fallback */
+body.player-theme {
+  background-color: #0f1a1a;
+  color: #e6f1f5;
+  font-family: 'Inter', system-ui, sans-serif;
 }`,
     templates: {}
   };
