@@ -1,18 +1,46 @@
-# log-origin
+# PlayerLog.ai
 
-> Privacy-first, self-improving AI gateway. Cloudflare-native, forkable, embeddable.
+> AI gaming coach that remembers every session, every build, every clutch moment.
 
 ## What Is This
 
-log-origin is the white-label core that powers [LOG.ai](https://github.com/CedarBeach2019/log-origin) — a platform of themed AI gateways (studylog.ai, makerlog.ai, DMlog.ai, etc.). It's also a standalone library you can embed in your own applications.
+PlayerLog.ai is a gaming-focused themed vessel of [log-origin](https://github.com/CedarBeach2019/log-origin) — a privacy-first, self-improving AI gateway. It's a competitive gaming companion that tracks your sessions, optimizes your builds, analyzes the meta, and coaches you to rank up.
 
-**The core idea:** Every interaction builds a log. The log trains the routing. The routing gets better. Your AI has a memory.
+**The core idea:** Every game builds a log. The log reveals your patterns. Your coach gets smarter. You rank up.
 
-## Status
+## Features
 
-🔄 **Architecture Phase** — We're writing the design documents before writing any code. Every table, endpoint, component, threat model, and tradeoff is debated and documented.
+- **Game Session Logger** — Log games with character, build, KDA, rank, and notes
+- **Build Optimizer** — Track build performance, discover top-performing loadouts
+- **Meta Tracker** — Stay on top of character pick rates, win rates, and meta shifts
+- **Rank Progression** — Visualize your climb (or decline) over time
+- **AI Coach Chat** — Chat with an AI coach that knows your session history
+- **Weakness Report** — Automated analysis of recurring gameplay weaknesses
+- **Mental Game Tips** — Curated tips for tilt control, focus, and improvement
 
-See `docs/` for the complete design blueprint.
+## Gaming Modules
+
+| Module | File | Purpose |
+|--------|------|---------|
+| Tracker | `src/gaming/tracker.ts` | GameSession, BuildOptimizer, MetaAnalyzer, StatTracker |
+| Coach | `src/gaming/coach.ts` | VODReviewPrompts, WeaknessFinder, DecisionCoach, MentalGameTips |
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/v1/app/gaming/sessions` | GET | List recent game sessions |
+| `/v1/app/gaming/sessions` | POST | Log a new game session |
+| `/v1/app/gaming/stats` | GET | Aggregated stats (win rate, KDA, trends) |
+| `/v1/app/gaming/builds` | GET | Top builds + personal build performance |
+| `/v1/app/gaming/meta` | GET | Current meta snapshot |
+| `/v1/app/gaming/rank` | GET | Rank progression history |
+| `/v1/app/gaming/weaknesses` | GET | Automated weakness analysis |
+| `/v1/app/gaming/coaching` | POST | AI-powered coaching responses |
+
+## UI Theme
+
+Dark gaming aesthetic: `#0F0F0F` background, neon purple `#A855F7` accents, cyan `#06B6D4` highlights. Sidebar navigation with sections for Dashboard, Analysis, and Coaching.
 
 ## Design Documents
 
@@ -44,7 +72,8 @@ See `docs/` for the complete design blueprint.
 
 log-origin is the engine. Themed forks add personality:
 
-- **DMlog.ai** — TTRPG world-builder's AI (first themed variant)
+- **PlayerLog.ai** — Competitive gaming coach with session tracking and build optimization (this fork)
+- **DMlog.ai** — TTRPG world-builder's AI
 - **studylog.ai** — AI tutor that remembers what you've learned
 - **makerlog.ai** — AI pair programmer that learns your style
 - **businesslog.ai** — AI assistant for operations and analytics
